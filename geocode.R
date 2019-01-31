@@ -93,7 +93,7 @@ d_for_geocoding <- d_for_geocoding %>%
     select(-geocodes)
 
 d_for_geocoding <- d_for_geocoding %>%
-    mutate(precise_geocode = score > 0.5 & precision %in% c('range', 'street'))
+    mutate(precise_geocode = {{!is.na(score)} & score > 0.5} & precision %in% c('range', 'street'))
 
 # set imprecise geocoding results to be missing
 d_for_geocoding[! d_for_geocoding$precise_geocode, 'lat'] <- NA
