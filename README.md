@@ -4,10 +4,11 @@
 
 ![](https://img.shields.io/github/tag-date/cole-brokamp/cchmc_batch_geocoder.svg?colorB=blue&label=version&style=flat-square)
 ![](https://img.shields.io/microbadger/image-size/degauss/cchmc_batch_geocoder.svg?logo=docker&style=flat-square)
-![](https://img.shields.io/docker/automated/degauss/cchmc_batch_geocoder.svg?label=build%20process&logo=docker&style=flat)
-<!---![](https://img.shields.io/docker/build/degauss/cchmc_batch_geocoder.svg?label=build%20status&logo=docker&style=flat-square)-->
-![](https://img.shields.io/travis/cole-brokamp/cchmc_batch_geocoder.svg?logo=travis&style=flat)
 ![](https://img.shields.io/github/license/cole-brokamp/cchmc_batch_geocoder.svg?style=flat-square)
+
+![](https://img.shields.io/docker/automated/degauss/cchmc_batch_geocoder.svg?label=build%20process&logo=docker&style=flat-square)
+<!---![](https://img.shields.io/docker/build/degauss/cchmc_batch_geocoder.svg?label=build%20status&logo=docker&style=flat-square)-->
+![](https://img.shields.io/travis/cole-brokamp/cchmc_batch_geocoder.svg?logo=travis&style=flat-square)
 
 ## Quick Start
 
