@@ -47,35 +47,42 @@ foster_char_strings <- c('Ronald McDonald House',
                          'foreign',
                          'foreign country',
                          'unknown')
-
 d <- d %>%
     mutate(bad_address = map(address, ~ str_detect(.x, coll(foster_char_strings, ignore_case=TRUE)))) %>%
     mutate(bad_address = map_lgl(bad_address, any))
+d[is.na(d$address), 'bad_address'] <- TRUE
 
 message('flagging PO boxes', '...\n')
-
 no_no_regex_strings <- c('(10722\\sWYS)',
                          '\\bP(OST)*\\.*\\s*[O|0](FFICE)*\\.*\\sB[O|0]X',
                          '(3333\\s*BURNETT*\\s*A.*452[12]9)')
-
 d <- d %>%
     mutate(PO = map(address, ~ str_detect(.x, regex(no_no_regex_strings, ignore_case=TRUE)))) %>%
     mutate(PO = map_lgl(PO, any))
 
-d_excluded_for_address <- d %>% filter(bad_address, PO)
-d_for_geocoding <- d %>% filter(!bad_address, !PO)
+d_excluded_for_address <- d %>% filter(bad_address | PO)
+d_for_geocoding <- d %>% filter(!bad_address & !PO)
 
 geocode <- function(addr_string) {
     stopifnot(class(addr_string)=='character')
-    system2('ruby',
-            args = c('/root/geocoder/geocode.rb', shQuote(addr_string)),
-            stderr=TRUE,stdout=TRUE) %>%
+    out <- system2('ruby',
+                   args = c('/root/geocoder/geocode.rb', shQuote(addr_string)),
+                   stderr=TRUE,stdout=TRUE) %>%
         jsonlite::fromJSON()
+    # if geocoder returns nothing then system will return empty list
+    if (length(out) == 0) out <- tibble(lat = NA, lon = NA, score = NA, precision = NA)
+    out
     }
 
 message('now geocoding', '...\n')
 
-d_for_geocoding$geocodes <- CB::mappp(d_for_geocoding$address, geocode, cache = TRUE, cache.name = 'geocoding_cache')
+d_for_geocoding$geocodes <- CB::mappp(d_for_geocoding$address,
+                                      geocode,
+                                      parallel = TRUE,
+                                      cache = TRUE,
+                                      cache.name = 'geocoding_cache')
+
+message('geocoding complete; now filtering to precise geocodes', '...\n')
 
 # extract results, if a tie then take first returned result
 d_for_geocoding <- d_for_geocoding %>%
@@ -122,7 +129,8 @@ d_geocoded_precise_tract <- filter(d_geocoded_precise_tract, ! duplicated_tracts
 d_geocoded_precise_tract <- d_geocoded_precise_tract %>%
     st_set_geometry(NULL) %>%
     rename(lat = geocoded_lat,
-           lon = geocoded_lon)
+           lon = geocoded_lon) %>%
+    as_tibble()
 
 message('adding tract-level deprivation index (https://github.com/cole-brokamp/dep_index)', '...\n')
 
