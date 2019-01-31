@@ -2,6 +2,13 @@
 
 > A docker container for geocoding, assigning census tract, and deprivation index to addresses
 
+![](https://img.shields.io/github/tag-date/cole-brokamp/cchmc_batch_geocoder.svg?colorB=blue&label=version&style=flat-square)
+![](https://img.shields.io/microbadger/image-size/degauss/cchmc_batch_geocoder.svg?logo=docker&style=flat-square)
+![](https://img.shields.io/docker/automated/degauss/cchmc_batch_geocoder.svg?label=build%20process&logo=docker&style=flat)
+<!---![](https://img.shields.io/docker/build/degauss/cchmc_batch_geocoder.svg?label=build%20status&logo=docker&style=flat-square)-->
+![](https://img.shields.io/travis/cole-brokamp/cchmc_batch_geocoder.svg?logo=travis&style=flat)
+![](https://img.shields.io/github/license/cole-brokamp/cchmc_batch_geocoder.svg?style=flat-square)
+
 ## Quick Start
 
 This DeGAUSS container condenses the sequence of (1) geocoding street addresses with a [custom geocoder based on 2015 TIGER/Line address range files ](https://github.com/cole-brokamp/geocoder), (2) joining the geocodes to a 2010 census tract shapefile from NHGIS using the epsg:5072 projection, and (3) adding census tract level data from the [community deprivation index](https://github.com/cole-brokamp/dep_index) all into a single image.
