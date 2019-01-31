@@ -22,11 +22,11 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN wget https://colebrokamp-dropbox.s3.amazonaws.com/geocoder.db -P /opt
+RUN wget -q https://colebrokamp-dropbox.s3.amazonaws.com/geocoder.db -P /opt
 
-RUN wget https://colebrokamp-dropbox.s3.amazonaws.com/NHGIS_US_census_tracts_5072_simplefeatures.rds -P /opt
+RUN wget -q https://colebrokamp-dropbox.s3.amazonaws.com/NHGIS_US_census_tracts_5072_simplefeatures.rds -P /opt
 
-RUN wget https://github.com/cole-brokamp/dep_index/raw/master/ACS_deprivation_index_by_census_tracts.rds -P /opt
+RUN wget -q https://github.com/cole-brokamp/dep_index/raw/master/ACS_deprivation_index_by_census_tracts.rds -P /opt
 
 # need Ruby 3 for the gems
 RUN apt-get update && apt-get install -y apt-file \
