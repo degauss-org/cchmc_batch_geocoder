@@ -8,7 +8,7 @@ setwd('/tmp')
 
 suppressPackageStartupMessages(library(argparser))
 p <- arg_parser('offline geocoding, returns the input file with geocodes appended')
-p <- add_argument(p,'file_name',help='name of input csv file')
+p <- add_argument(p,'file_name',help='name of input csv file with a column named "address"')
 args <- parse_args(p)
 
 # import data
@@ -18,7 +18,7 @@ message('\n', 'reading in address file: ', args$file_name, '...\n')
 d <- read_csv(args$file_name)
 
 # must contain character column called address
-if (! 'address' %in% names(d)) stop('no column called address found in the input file')
+if (! 'address' %in% names(d)) stop('no column called address found in the input file', call. = FALSE)
 
 message('\n', 'removing excess whitespace', '...\n')
 d <- d %>% mutate(address = str_replace_all(address, '[[:blank:]]', ' '))
@@ -29,8 +29,7 @@ d <- d %>%
            address = str_replace_all(address, fixed('"'), ''),
            address = str_replace_all(address, '[^[:alnum:] ]', ''))
 
-message('flagging known foster addresses, institutional addresses, "foreign", "verify", "unknown"', '...\n')
-
+message('flagging known Cincinnati foster & institutional addresses, "foreign", "verify", "unknown"', 'and missing addresses', '...\n')
 foster_char_strings <- c('Ronald McDonald House',
                          '350 Erkenbrecher Ave',
                          '350 Erkenbrecher Avenue',
