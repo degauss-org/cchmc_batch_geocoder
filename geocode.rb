@@ -2,7 +2,7 @@ require 'rubygems'
 require 'geocoder/us'
 require 'json'
 
-db = Geocoder::US::Database.new("/opt/geocoder.db")
+db = Geocoder::US::Database.new("$HOME/geocoder.db")
 
 out = db.geocode(ARGV[0])
 

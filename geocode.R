@@ -4,7 +4,8 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
 # library(CB)
 
-setwd('/tmp')
+#### I need to change this back for Docker!  (or should I start to defulat to something other than `/tmp` as I suggested on GH
+# setwd('/tmp')
 
 suppressPackageStartupMessages(library(argparser))
 p <- arg_parser('offline geocoding, returns the input file with geocodes appended')
@@ -115,7 +116,7 @@ d_geocoded_precise <- d_geocoded_precise %>%
 
 # this file was created by downloading the 2010 tract shapefile from NHGIS and with sf in R:
 # read in shapefile; reproject to epsg:5072; take only GEOID10 column and call it fips_tract_id
-tract_shps <- readRDS('/opt/NHGIS_US_census_tracts_5072_simplefeatures.rds')
+tract_shps <- readRDS('~/NHGIS_US_census_tracts_5072_simplefeatures.rds')
 
 d_geocoded_precise_tract <- st_join(d_geocoded_precise, tract_shps)
 
@@ -134,7 +135,7 @@ d_geocoded_precise_tract <- d_geocoded_precise_tract %>%
 
 message('adding tract-level deprivation index (https://github.com/cole-brokamp/dep_index)', '...\n')
 
-d_dep <- readRDS('/opt/ACS_deprivation_index_by_census_tracts.rds') %>% rename(fips_tract_id = census_tract_fips)
+d_dep <- readRDS('~/ACS_deprivation_index_by_census_tracts.rds') %>% rename(fips_tract_id = census_tract_fips)
 
 suppressWarnings(
 d_geocoded_precise_tract_dep <- left_join(d_geocoded_precise_tract, d_dep, by='fips_tract_id')
