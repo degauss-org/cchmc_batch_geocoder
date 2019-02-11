@@ -19,8 +19,9 @@ RUN echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.m
 RUN R -e "source('https://install-github.me/cole-brokamp/CB')"
 RUN R -e "install.packages(c('argparser', 'stringr', 'jsonlite'))"
 
-RUN mkdir $HOME/geocoder
-COPY . $HOME/geocoder
+COPY . /root/geocoder
+RUN chmod +x $HOME/geocoder/geocode.R
+RUN chmod +x $HOME/geocoder/geocode.rb
 # RUN chmod +x /geocoder/geocode.rb
 # RUN chmod +x /geocoder/geocode.R
 
@@ -28,4 +29,4 @@ RUN cd $HOME/geocoder \
   && make install \
   && gem install Geocoder-US-2.0.4.gem
 
-ENTRYPOINT ["$HOME/geocoder/geocode.R"]
+ENTRYPOINT ["/root/geocoder/geocode.R"]

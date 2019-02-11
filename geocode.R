@@ -1,11 +1,10 @@
-#!/usr/bin/Rscript
+#!/usr/local/bin/Rscript
 
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
 # library(CB)
 
-#### I need to change this back for Docker!  (or should I start to defulat to something other than `/tmp` as I suggested on GH
-# setwd('/tmp')
+setwd('/tmp')
 
 suppressPackageStartupMessages(library(argparser))
 p <- arg_parser('offline geocoding, returns the input file with geocodes appended')
