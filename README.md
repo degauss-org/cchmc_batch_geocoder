@@ -31,6 +31,22 @@ If `precise_geocode` is `FALSE`, this means that the address was geocoded but pr
 
 The addresses that are not successfully geocoded are still in the output file, but all moved to the top. This allows for quick examination of these addresses for errors. After edits are made, rerun the container. The successful geocodes are cached locally in a folder called `geocoding_cache` so that the geocoding process is never repeated, but instead read from disk. This makes the process of manually editing problematic addresses and rerunning the edited file through the container very quick.
 
+## Address String Formatting
+
+If your address components are in different columns, you will need to paste them together into a single string. Below are some tips that will help optimize geocoding accuracy and precision:
+
+- separate the different address components with a space
+- do not include apartment numbers or "second address line" (but its okay if you can't remove them)
+- spelling should be as accurate as possible, but the program does complete "fuzzy matching" so an exact match is not necessary
+- capitalization does not affect results
+- abbreviations may be used (i.e. `St.` instead of `Street` or `OH` instead of `Ohio`)
+- use arabic numerals instead of written numbers (i.e. `13` instead of `thirteen`)
+- do not try to geocode "P.O. box" addresses; these are really not addresses based on a phyiscal location and the geocoder will likely return incorrect matches
+- do not try to geocode addresses without a valid 5 digit zip code; this is used by the geocoder to complete its initial searches and if attempted, it will likely return incorrect matches
+- plus4 zip codes are ignored, but if they must be included make sure to separate them with a dash (i.e. `37209-0000` instead of `372090000`)
+- address strings with out of order items could return NA (i.e. `3333 Burnet Ave Cincinnati 45229 OH`)
+
+
 ## DeGAUSS
 
 To find more information on how to install Docker and use DeGAUSS, see the [DeGAUSS README](https://github.com/cole-brokamp/DeGAUSS) or our publications in [JAMIA](https://colebrokamp-website.s3.amazonaws.com/publications/Brokamp_JAMIA_2017.pdf) or [JOSS](https://colebrokamp-website.s3.amazonaws.com/publications/Brokamp_JOSS_2018.pdf).
