@@ -37,13 +37,12 @@ If your address components are in different columns, you will need to paste them
 
 - separate the different address components with a space
 - do not include apartment numbers or "second address line" (but its okay if you can't remove them)
+- zip codes must be five digits (i.e. `32709`) and not "plus four" (i.e. `32709-0000`)
+- do not try to geocode addresses without a valid 5 digit zip code; this is used by the geocoder to complete its initial searches and if attempted, it will likely return incorrect matches
 - spelling should be as accurate as possible, but the program does complete "fuzzy matching" so an exact match is not necessary
 - capitalization does not affect results
 - abbreviations may be used (i.e. `St.` instead of `Street` or `OH` instead of `Ohio`)
 - use arabic numerals instead of written numbers (i.e. `13` instead of `thirteen`)
-- do not try to geocode "P.O. box" addresses; these are really not addresses based on a phyiscal location and the geocoder will likely return incorrect matches
-- do not try to geocode addresses without a valid 5 digit zip code; this is used by the geocoder to complete its initial searches and if attempted, it will likely return incorrect matches
-- plus4 zip codes are ignored, but if they must be included make sure to separate them with a dash (i.e. `37209-0000` instead of `372090000`)
 - address strings with out of order items could return NA (i.e. `3333 Burnet Ave Cincinnati 45229 OH`)
 
 
